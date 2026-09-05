@@ -7,7 +7,7 @@
 namespace TCPHelper
 {
 
-ReturnCode WriteN(const int& i_sockFd, const void* i_buffer, const size_t& i_len)
+ReturnCode WriteN(const int i_sockFd, const void* i_buffer, const size_t i_len)
 {
     ssize_t bytesSent;
 
@@ -23,7 +23,7 @@ ReturnCode WriteN(const int& i_sockFd, const void* i_buffer, const size_t& i_len
     size_t totalBytesSent = 0;
     do
     {
-        bytesSent = write(i_sockFd, (i_buffer + totalBytesSent), i_len - totalBytesSent);
+        bytesSent = write(i_sockFd, (void*)(i_buffer + totalBytesSent), i_len - totalBytesSent);
         if (bytesSent < 0)
         {
             perror("[TCPHelper] write message failed");
@@ -31,7 +31,7 @@ ReturnCode WriteN(const int& i_sockFd, const void* i_buffer, const size_t& i_len
         }
         if (bytesSent == 0)
         {
-            perror("[TCPHelper] socket was closed unexpectedly");
+            printf("[TCPHelper] socket was closed unexpectedly");
             return ReturnCode::ERROR_GENERIC;
         }
         totalBytesSent += bytesSent;
@@ -39,7 +39,7 @@ ReturnCode WriteN(const int& i_sockFd, const void* i_buffer, const size_t& i_len
     return ReturnCode::SUCCESS;
 }
 
-ReturnCode ReadN(const int& i_sockFd, void* o_buffer, size_t& o_len)
+ReturnCode ReadN(const int i_sockFd, const size_t i_maxLen, void* o_buffer, size_t& o_len)
 {
     uint32_t lenNetwork;
     ssize_t bytesReceived = read(i_sockFd, &lenNetwork, sizeof(lenNetwork));
@@ -52,6 +52,12 @@ ReturnCode ReadN(const int& i_sockFd, void* o_buffer, size_t& o_len)
     }
 
     o_len = ntohl(lenNetwork);
+    if (o_len > i_maxLen)
+    {
+        perror("[TCPHelper] read length failed: buffer length is higher than max length.");
+        printf("[TCPHelper] read length failed: buffer length (%zd) is higher than max length (%zd)\n", o_len, i_maxLen);
+        return ReturnCode::ERROR_MAX_LENGTH;
+    }
 
     size_t totalBytesReceived = 0;
     do

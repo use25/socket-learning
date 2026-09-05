@@ -69,7 +69,7 @@ int main() {
         }
 
         size_t len_from_server;
-        result = TCPHelper::ReadN(sock_fd, (void*)buffer_server, len_from_server);
+        result = TCPHelper::ReadN(sock_fd, myTCPConfig::BUFFER_SIZE, (void*)buffer_server, len_from_server);
         if (result < TCPHelper::ReturnCode::SUCCESS)
         {
             perror("[client] read from server failed");

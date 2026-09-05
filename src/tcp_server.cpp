@@ -63,7 +63,7 @@ int main() {
         exit(1);
     }
 
-    // Convert the client's binary IP address into a human-readable string
+    // Convert the client's binary IP address into a human-readable string.
     char client_ip[INET_ADDRSTRLEN];
     inet_ntop(AF_INET, &client_addr.sin_addr, client_ip, sizeof(client_ip));
     printf("[server] client connected: %s:%d\n", client_ip, ntohs(client_addr.sin_port));
@@ -74,7 +74,7 @@ int main() {
         size_t len_from_client;
         TCPHelper::ReturnCode result;
 
-        result = TCPHelper::ReadN(client_fd, (void*)buffer, len_from_client);
+        result = TCPHelper::ReadN(client_fd, myTCPConfig::BUFFER_SIZE, (void*)buffer, len_from_client);
         if (result < TCPHelper::ReturnCode::SUCCESS)
         {
             perror("[server] read from client failed");
@@ -95,8 +95,6 @@ int main() {
         memset(buffer, 0, len_from_client);
     }
 
-    // STEP 6: Clean up. Always close both sockets.
-    // ---------------------------------------------------------------
     close(client_fd);
     close(server_fd);
     printf("[server] shut down cleanly\n");
