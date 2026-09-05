@@ -54,7 +54,6 @@ ReturnCode ReadN(const int i_sockFd, const size_t i_maxLen, void* o_buffer, size
     o_len = ntohl(lenNetwork);
     if (o_len > i_maxLen)
     {
-        perror("[TCPHelper] read length failed: buffer length is higher than max length.");
         printf("[TCPHelper] read length failed: buffer length (%zd) is higher than max length (%zd)\n", o_len, i_maxLen);
         return ReturnCode::ERROR_MAX_LENGTH;
     }
