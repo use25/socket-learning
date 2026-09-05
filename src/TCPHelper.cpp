@@ -70,7 +70,7 @@ ReturnCode ReadN(const int i_sockFd, const size_t i_maxLen, void* o_buffer, size
         }
         if (bytesReceived == 0)
         {
-            perror("[TCPHelper] socket was closed unexpectedly");
+            printf("[TCPHelper] socket was closed unexpectedly");
             return ReturnCode::ERROR_GENERIC;
         }
         totalBytesReceived += bytesReceived;
