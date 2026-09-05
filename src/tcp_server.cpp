@@ -55,8 +55,6 @@ int main() {
     sockaddr_in client_addr;
     socklen_t client_len = sizeof(client_addr);
     int client_fd = accept(server_fd, (sockaddr*)&client_addr, &client_len);
-    int constexpr small_buf = 100;
-    setsockopt(client_fd, SOL_SOCKET, SO_RCVBUF, &small_buf, sizeof(small_buf));
     if (client_fd < 0) {
         perror("accept() failed");
         close(server_fd);
