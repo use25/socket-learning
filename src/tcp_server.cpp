@@ -72,7 +72,7 @@ int main() {
         size_t len_from_client;
         TCPHelper::ReturnCode result;
 
-        result = TCPHelper::ReadN(client_fd, myTCPConfig::BUFFER_SIZE, (void*)buffer, len_from_client);
+        result = TCPHelper::ReadN(client_fd, myTCPConfig::BUFFER_SIZE, buffer, len_from_client);
         if (result < TCPHelper::ReturnCode::SUCCESS)
         {
             perror("[server] read from client failed");
@@ -82,7 +82,7 @@ int main() {
         printf("[server] Received message from client: %s\n", buffer);
 
         // Sending back exactly the same buffer/message to client for now
-        result = TCPHelper::WriteN(client_fd, (const void*)buffer, len_from_client);
+        result = TCPHelper::WriteN(client_fd, buffer, len_from_client);
         if (result < TCPHelper::ReturnCode::SUCCESS)
         {
             perror("[server] write to client failed");

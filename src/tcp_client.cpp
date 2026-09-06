@@ -61,7 +61,7 @@ int main() {
 
         TCPHelper::ReturnCode result;
 
-        result = TCPHelper::WriteN(sock_fd, (const void*)input, len);
+        result = TCPHelper::WriteN(sock_fd, input, len);
         if (result < TCPHelper::ReturnCode::SUCCESS)
         {
             perror("[client] write to server failed");
@@ -69,7 +69,7 @@ int main() {
         }
 
         size_t len_from_server;
-        result = TCPHelper::ReadN(sock_fd, myTCPConfig::BUFFER_SIZE, (void*)buffer_server, len_from_server);
+        result = TCPHelper::ReadN(sock_fd, myTCPConfig::BUFFER_SIZE, buffer_server, len_from_server);
         if (result < TCPHelper::ReturnCode::SUCCESS)
         {
             perror("[client] read from server failed");

@@ -23,7 +23,7 @@ ReturnCode WriteN(const int i_sockFd, const void* i_buffer, const size_t i_len)
     size_t totalBytesSent = 0;
     do
     {
-        bytesSent = write(i_sockFd, (void*)(i_buffer + totalBytesSent), i_len - totalBytesSent);
+        bytesSent = write(i_sockFd, (const char*)i_buffer + totalBytesSent, i_len - totalBytesSent);
         if (bytesSent < 0)
         {
             perror("[TCPHelper] write message failed");
@@ -61,7 +61,7 @@ ReturnCode ReadN(const int i_sockFd, const size_t i_maxLen, void* o_buffer, size
     size_t totalBytesReceived = 0;
     do
     {
-        bytesReceived = read(i_sockFd, (o_buffer + totalBytesReceived), o_len - totalBytesReceived);
+        bytesReceived = read(i_sockFd, (char*)o_buffer + totalBytesReceived, o_len - totalBytesReceived);
         if (bytesReceived < 0)
         {
             perror("[TCPHelper] read failed");
