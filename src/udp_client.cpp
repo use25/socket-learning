@@ -60,7 +60,7 @@ int main()
         }
 
         // Tag the message with a sequence number before sending.
-        snprintf(packet, sizeof(packet), "%ld:%s", seq, input);
+        snprintf(packet, sizeof(packet), "%u:%s", seq, input);
         seq++;
 
         socklen_t server_len = sizeof(server_addr);
